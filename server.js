@@ -22,9 +22,12 @@ const app = express();
 // ==========================================
 
 // أ) CORS
+// أ) CORS
+const FRONTEND_URL = "https://google-login-frontend-coral.vercel.app";
+
 app.use(
   cors({
-    origin: "https://google-login-frontend-coral.vercel.app",
+    origin: [FRONTEND_URL, "http://localhost:5173"], // السماح بالرابط اللايف والمحلي
     credentials: true,
   })
 );
