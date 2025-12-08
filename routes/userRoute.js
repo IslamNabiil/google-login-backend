@@ -40,7 +40,7 @@ router.get("/auth/google", passport.authenticate("google", { scope: ["profile", 
 router.get("/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "http://localhost:5173/login" }),
     (req, res) => {
-        res.redirect("http://localhost:5173/dashboard");
+        res.redirect("https://google-login-frontend-coral.vercel.app/dashboard");
     }
 );
 
@@ -48,7 +48,7 @@ router.get("/auth/google/callback",
 router.get("/api/logout", (req, res, next) => {
     req.logout((err) => {
         if (err) { return next(err); }
-        res.redirect("http://localhost:5173");
+        res.redirect("https://google-login-frontend-coral.vercel.app");
     });
 });
 
