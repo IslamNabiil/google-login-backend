@@ -33,19 +33,21 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.set('trust proxy', 1); // 👈 (ضيف هذا السطر)
+
 // ج) Session
 app.use(
   session({
-    secret: process.env.COOKIE_KEY, // تأكد إن ده موجود في ملف .env
+    secret: process.env.COOKIE_KEY,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // خليها false طول ما احنا local development
-      maxAge: 24 * 60 * 60 * 1000,
-    },
+      maxAge: 1000 * 60 * 60 * 24 * 7, // أسبوع
+      secure: true, // 👈 لازم تكون True في بيئة HTTPS
+      sameSite: 'none' // 👈 لازم تكون 'none' عشان الفرونت والباك مختلفين
+    }
   })
 );
-
 // د) Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
