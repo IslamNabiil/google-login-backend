@@ -24,7 +24,7 @@ const app = express();
 // أ) CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://google-login-frontend-coral.vercel.app",
     credentials: true,
   })
 );
