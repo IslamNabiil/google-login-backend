@@ -64,12 +64,25 @@ app.get("/", (req, res) => {
 // ==========================================
 // 4. Server Start
 // ==========================================
-connectDB()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`🚀 Server is running on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error("Failed to connect to DB", err);
+// connectDB()
+//   .then(() => {
+//     app.listen(port, () => {
+//       console.log(`🚀 Server is running on port ${port}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error("Failed to connect to DB", err);
+//   });
+
+// الكود الجديد المتوافق مع Vercel
+connectDB(); // الاتصال بالداتا بيز
+
+// لازم نصدر التطبيق عشان Vercel يعرف يشغله
+module.exports = app;
+
+// الجزء ده عشان لو حبيت تشغله على جهازك يشتغل عادي
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`🚀 Server is running on port ${port}`);
   });
+}
