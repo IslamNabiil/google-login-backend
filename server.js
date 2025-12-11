@@ -39,17 +39,22 @@ app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1); // 👈 (ضيف هذا السطر)
 
 // ج) Session
+// تحديد ما إذا كنا في بيئة إنتاج (Production) أم لا
+const isProduction = process.env.NODE_ENV === 'production';
+
+// ج) Session
 app.use(
-  session({
-    secret: process.env.COOKIE_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // أسبوع
-      secure: true, // 👈 لازم تكون True في بيئة HTTPS
-      sameSite: 'none' // 👈 لازم تكون 'none' عشان الفرونت والباك مختلفين
-    }
-  })
+  session({
+    secret: process.env.COOKIE_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // أسبوع
+      // 👇 الإعدادات تتغير بناءً على بيئة التشغيل 👇
+      secure: isProduction, // True فقط في بيئة الإنتاج (Vercel)
+      sameSite: isProduction ? 'none' : 'lax' // 'none' فقط في بيئة الإنتاج
+    }
+  })
 );
 // د) Passport Middleware
 app.use(passport.initialize());
